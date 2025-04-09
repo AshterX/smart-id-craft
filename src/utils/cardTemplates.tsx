@@ -10,6 +10,22 @@ interface CardTemplateProps {
   cardRef?: React.RefObject<HTMLDivElement>;
 }
 
+// Helper function to create a smaller data object for QR code
+const createQRCodeData = (data: StudentData) => {
+  // Create a new object with essential info but without the photo
+  const qrData = {
+    id: data.id,
+    name: data.name,
+    rollNumber: data.rollNumber,
+    classDiv: data.classDiv,
+    allergies: data.allergies,
+    rackNumber: data.rackNumber,
+    busRouteNumber: data.busRouteNumber,
+  };
+  
+  return JSON.stringify(qrData);
+};
+
 export const Template1: React.FC<CardTemplateProps> = ({ data, className, cardRef }) => {
   return (
     <div 
@@ -55,7 +71,11 @@ export const Template1: React.FC<CardTemplateProps> = ({ data, className, cardRe
         </div>
         
         <div className="mt-auto">
-          <QRCodeSVG value={JSON.stringify(data)} size={96} />
+          <QRCodeSVG 
+            value={createQRCodeData(data)} 
+            size={96} 
+            level="M" // Medium error correction level
+          />
           <p className="text-xs text-center mt-1 text-gray-500">Scan for full details</p>
         </div>
       </div>
@@ -76,7 +96,13 @@ export const Template2: React.FC<CardTemplateProps> = ({ data, className, cardRe
       <div className="p-4 border-b border-unity-accent">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold">UNITY SCHOOL</h2>
-          <QRCodeSVG value={JSON.stringify(data)} size={48} bgColor="transparent" fgColor="white" />
+          <QRCodeSVG 
+            value={createQRCodeData(data)} 
+            size={48} 
+            bgColor="transparent" 
+            fgColor="white" 
+            level="M" // Medium error correction level
+          />
         </div>
       </div>
       
